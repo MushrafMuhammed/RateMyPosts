@@ -2,8 +2,11 @@ from django.db import models
 
 # Create your models here.
 class Tag(models.Model):
-    name = models.CharField(max_length=255)
-    weight = models.IntegerField()
+    name = models.CharField(max_length=200)
+    weight = models.IntegerField(max_length=100)
+
+    class Meta:
+        db_table = 'tag'
 
 class Image(models.Model):
     image = models.ImageField(upload_to='images/')
@@ -15,5 +18,8 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
     dislikes = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'post'
 
 

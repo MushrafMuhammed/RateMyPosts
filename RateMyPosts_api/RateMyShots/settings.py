@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'administrator',
     'user',
+    'rest_framework',
+    'corsheaders',
    
 ]
 
@@ -51,7 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'RateMyShots.urls'
 
@@ -80,8 +86,12 @@ WSGI_APPLICATION = 'RateMyShots.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ratemyposts_db',
+        'USER': 'postgres',
+        'PASSWORD': 'mhd@PostgreSQL',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 

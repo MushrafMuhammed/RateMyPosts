@@ -9,59 +9,146 @@
     <!-- Bootstrap CSS 5.3.0 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="">
 </head>
 
 <body>
+    <section>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white pt-3 pb-3">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img src="" alt=""><b>ReteMyPost</b></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mx-auto mb-2 mb-lg-0">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="../administrator/add_post.html">Create
+                                post</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="../administrator/admin_count_view.html">Statistics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="../administrator/initialize_tages.html">Tag initialization</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <ul class="navbar-nav me-2 mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href=""><svg xmlns="http://www.w3.org/2000/svg" width="30"
+                                        height="30" fill="currentColor" class="bi bi-box-arrow-left"
+                                        viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z" />
+                                        <path fill-rule="evenodd"
+                                            d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z" />
+                                    </svg></a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </section>
+
     <div class="container">
         <div class="row pt-5">
             <h5 class="text-center"><b>Add Post</b></h5>
             <div style="width: 80%; margin-left: auto; margin-right: auto; margin-bottom: 10%;">
 
                 <form method="POST" enctype="multipart/form-data">
-                    
+
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Upload image</label>
                         <div class="col-sm-10">
-                            <input type="file" name="image" multiple
-                                class="form-control" id="" placeholder="jpg"><br>
+                            <input type="file" name="image" multiple class="form-control" id="image"
+                                placeholder="jpg"><br>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Tag</label>
                         <div class="col-sm-10">
-                            <input type="text" name="tag" 
-                                class="form-control" id="" placeholder="#">
+                            <select class="form-select" id="tag_select" aria-label="Floating label select example">
+
+                            </select>
                         </div>
                     </div><br>
 
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" id="descriptionField" placeholder="Write Description"
+                            <textarea class="form-control" id="description" placeholder="Write Description"
                                 rows="3" style="margin-bottom: 20px;" name="description"></textarea>
                         </div>
                     </div>
 
                     <div class="">
                         <div class="col-sm-10" style="width: 100%">
-                            <button type="submit" class="btn btn-primary" style="width: 50%; margin-left: 40%; ">Post</button>
+                            <button type="submit" class="btn btn-primary" id="submit_btn"
+                                style="width: 50%; margin-left: 40%; ">Post</button>
                         </div>
                     </div>
                 </form>
-                
+
             </div>
 
         </div>
     </div>
-    
+
     <!-- Bootstrap js 5.3.0 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 </body>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://127.0.0.1:8000/administrator/tagList",
+            type: "GET",
+
+            success: function (response) {
+                console.log(response.tagList)
+
+                var select = $("#tag_select");
+                select.empty(); // Clear any existing options
+
+                for (var i = 0; i < response.tagList.length; i++) {
+                    var tag = response.tagList[i];
+                    select.append("<option>" + tag.name + "</option>");
+                }
+            }
+        })
+
+
+        $("#submit_btn").click(function () {
+            var post_data = {
+                "images": $("#image").prop('files'),
+                "tag": $("#tag_select").val(),
+                "description": $("#description").val(),
+            }
+            
+            $.ajax({
+                url: "http://127.0.0.1:8000/administrator/post",
+                data: post_data,
+                type: "POST",
+
+                success: function (response) {
+                    $('#error').html(response.errorMessage)
+                }
+            })
+        })
+    })
+</script>
 
 </html>
-
-
