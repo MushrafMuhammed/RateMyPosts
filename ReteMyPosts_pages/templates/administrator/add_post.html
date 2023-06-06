@@ -88,8 +88,8 @@
                     <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" id="description" placeholder="Write Description"
-                                rows="3" style="margin-bottom: 20px;" name="description"></textarea>
+                            <textarea class="form-control" id="description" placeholder="Write Description" rows="3"
+                                style="margin-bottom: 20px;" name="description"></textarea>
                         </div>
                     </div>
 
@@ -118,33 +118,39 @@
             type: "GET",
 
             success: function (response) {
-                console.log(response.tagList)
+                // console.log(response.tagList)
 
                 var select = $("#tag_select");
                 select.empty(); // Clear any existing options
 
                 for (var i = 0; i < response.tagList.length; i++) {
                     var tag = response.tagList[i];
-                    select.append("<option>" + tag.name + "</option>");
+                    select.append("<option value='" + tag.id + "'>" + tag.name + "</option>")
                 }
             }
         })
 
 
-        $("#submit_btn").click(function () {
-            var post_data = {
-                "images": $("#image").prop('files'),
-                "tag": $("#tag_select").val(),
-                "description": $("#description").val(),
-            }
-            
+        $("#submit_btn").click(function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            var formData = new FormData();
+            var images = $("#image")[0].files;
+
+            formData.append('image', images[0]);
+            formData.append('tag', $("#tag_select").val());
+            formData.append('description', $("#description").val());
+
             $.ajax({
                 url: "http://127.0.0.1:8000/administrator/post",
-                data: post_data,
+                data: formData,
                 type: "POST",
+                processData: false,
+                contentType: false,
 
                 success: function (response) {
-                    $('#error').html(response.errorMessage)
+                    $('#error').html(response.errorMessage);
+                    console.log(response.success);
                 }
             })
         })

@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=200)
-    weight = models.IntegerField(max_length=100)
+    weight = models.IntegerField()
 
     class Meta:
         db_table = 'tag'
